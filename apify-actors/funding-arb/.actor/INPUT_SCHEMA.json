@@ -1,0 +1,59 @@
+{
+  "title": "Crypto Funding Rate Arbitrage Scanner",
+  "description": "Scans perpetual futures funding rates across OKX, Gate.io, MEXC, HTX, KuCoin and Bitget, and returns cross-exchange funding-rate spreads ranked by annualized return. Find delta-neutral carry trades in seconds.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "exchanges": {
+      "title": "Exchanges",
+      "type": "array",
+      "description": "Which exchanges to scan. Binance/Bybit require a non-restricted IP (Apify cloud works).",
+      "editor": "stringList",
+      "default": [
+        "okx",
+        "gate",
+        "mexc",
+        "htx",
+        "kucoin",
+        "bitget",
+        "binance",
+        "bybit"
+      ],
+      "items": {
+        "type": "string",
+        "enum": [
+          "okx",
+          "gate",
+          "mexc",
+          "htx",
+          "kucoin",
+          "bitget",
+          "binance",
+          "bybit"
+        ]
+      }
+    },
+    "minAprPct": {
+      "title": "Minimum APR (%)",
+      "type": "integer",
+      "description": "Only return pairs whose annualized funding spread is above this value.",
+      "default": 10,
+      "minimum": 0
+    },
+    "maxAbsRatePct": {
+      "title": "Max |funding rate| per period (%)",
+      "type": "number",
+      "description": "Filters out illiquid/stale contracts. 0.5 = 0.5% per 8h.",
+      "default": 0.5,
+      "minimum": 0.01
+    },
+    "topN": {
+      "title": "Max results",
+      "type": "integer",
+      "default": 50,
+      "minimum": 1,
+      "maximum": 500
+    }
+  },
+  "required": []
+}

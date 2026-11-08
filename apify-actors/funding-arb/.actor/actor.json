@@ -1,0 +1,37 @@
+{
+  "actorSpecification": 1,
+  "name": "crypto-funding-rate-arbitrage-scanner",
+  "title": "Crypto Funding Rate Arbitrage Scanner",
+  "description": "Scans perpetual futures funding rates across OKX, Gate.io, MEXC, HTX, KuCoin and Bitget, and returns cross-exchange funding-rate spreads ranked by annualized return. Find delta-neutral carry trades in seconds.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "meta": {
+    "templateId": "python-start"
+  },
+  "dockerfile": "../Dockerfile",
+  "input": "./INPUT_SCHEMA.json",
+  "readme": "../README.md",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "views": {
+        "overview": {
+          "title": "Results",
+          "transformation": {
+            "fields": [
+              "base",
+              "long_exchange",
+              "short_exchange",
+              "long_rate_pct",
+              "short_rate_pct",
+              "spread_pct_per_period",
+              "apr_pct",
+              "funding_interval_h",
+              "next_funding_ts"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

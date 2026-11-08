@@ -1,0 +1,60 @@
+{
+  "title": "DeFi Stablecoin Yield Scanner (DefiLlama)",
+  "description": "Scans every DeFi lending/LP pool tracked by DefiLlama and returns stablecoin yields filtered by TVL, APY, chain and impermanent-loss risk. Output includes direct pool links.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "minTvlUsd": {
+      "title": "Minimum TVL (USD)",
+      "type": "integer",
+      "description": "Ignores pools smaller than this.",
+      "default": 10000000,
+      "minimum": 0
+    },
+    "minApy": {
+      "title": "Minimum APY (%)",
+      "type": "number",
+      "default": 5,
+      "minimum": 0
+    },
+    "maxApy": {
+      "title": "Maximum APY (%)",
+      "type": "number",
+      "description": "Filters out obvious scams.",
+      "default": 200,
+      "minimum": 1
+    },
+    "stablecoinOnly": {
+      "title": "Stablecoin pools only",
+      "type": "boolean",
+      "default": true
+    },
+    "chains": {
+      "title": "Chains (empty = all)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "e.g. Ethereum, Solana, Base",
+      "default": []
+    },
+    "projects": {
+      "title": "Projects (empty = all)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "e.g. aave-v3, morpho-blue",
+      "default": []
+    },
+    "excludeIl": {
+      "title": "Exclude impermanent-loss pools",
+      "type": "boolean",
+      "default": true
+    },
+    "topN": {
+      "title": "Max results",
+      "type": "integer",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 1000
+    }
+  },
+  "required": []
+}

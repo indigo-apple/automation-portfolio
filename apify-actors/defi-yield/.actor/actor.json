@@ -1,0 +1,38 @@
+{
+  "actorSpecification": 1,
+  "name": "defi-stablecoin-yield-scanner",
+  "title": "DeFi Stablecoin Yield Scanner (DefiLlama)",
+  "description": "Scans every DeFi lending/LP pool tracked by DefiLlama and returns stablecoin yields filtered by TVL, APY, chain and impermanent-loss risk. Output includes direct pool links.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "meta": {
+    "templateId": "python-start"
+  },
+  "dockerfile": "../Dockerfile",
+  "input": "./INPUT_SCHEMA.json",
+  "readme": "../README.md",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "views": {
+        "overview": {
+          "title": "Results",
+          "transformation": {
+            "fields": [
+              "project",
+              "chain",
+              "symbol",
+              "apy",
+              "apy_base",
+              "apy_reward",
+              "tvl_usd",
+              "stablecoin",
+              "il_risk",
+              "url"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

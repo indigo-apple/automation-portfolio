@@ -1,0 +1,41 @@
+{
+  "title": "Polymarket Liquidity Rewards Scanner",
+  "description": "Lists Polymarket markets that pay daily liquidity-provider rewards, sorted by USD/day, with qualifying max spread, minimum size and current liquidity. Built for market makers hunting reward pools.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "minDailyRewardUsd": {
+      "title": "Minimum daily reward (USD)",
+      "type": "number",
+      "default": 1,
+      "minimum": 0
+    },
+    "maxSpreadCents": {
+      "title": "Max allowed spread (cents)",
+      "type": "number",
+      "description": "Empty = no limit.",
+      "default": null
+    },
+    "minLiquidityUsd": {
+      "title": "Minimum liquidity (USD)",
+      "type": "number",
+      "default": 0,
+      "minimum": 0
+    },
+    "pages": {
+      "title": "Pages to scan (100 markets each)",
+      "type": "integer",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 30
+    },
+    "topN": {
+      "title": "Max results",
+      "type": "integer",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 1000
+    }
+  },
+  "required": []
+}

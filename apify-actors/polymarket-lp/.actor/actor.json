@@ -1,0 +1,36 @@
+{
+  "actorSpecification": 1,
+  "name": "polymarket-liquidity-rewards-scanner",
+  "title": "Polymarket Liquidity Rewards Scanner",
+  "description": "Lists Polymarket markets that pay daily liquidity-provider rewards, sorted by USD/day, with qualifying max spread, minimum size and current liquidity. Built for market makers hunting reward pools.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "meta": {
+    "templateId": "python-start"
+  },
+  "dockerfile": "../Dockerfile",
+  "input": "./INPUT_SCHEMA.json",
+  "readme": "../README.md",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "views": {
+        "overview": {
+          "title": "Results",
+          "transformation": {
+            "fields": [
+              "question",
+              "daily_reward_usd",
+              "rewards_max_spread_cents",
+              "rewards_min_size",
+              "liquidity_usd",
+              "volume_24h_usd",
+              "end_date",
+              "url"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
