@@ -2,7 +2,7 @@
   "actorSpecification": 1,
   "name": "crypto-funding-rate-arbitrage-scanner",
   "title": "Crypto Funding Rate Arbitrage Scanner",
-  "description": "Scans perpetual futures funding rates across OKX, Gate.io, MEXC, HTX, KuCoin and Bitget, and returns cross-exchange funding-rate spreads ranked by annualized return. Find delta-neutral carry trades in seconds.",
+  "description": "Scans perpetual futures funding rates on OKX, Gate.io, MEXC, HTX, KuCoin and Bitget, and returns cross-exchange funding-rate spreads ranked by annualized return. Binance and Bybit are also supported where the caller's region allows them. Find delta-neutral carry trades in seconds.",
   "version": "0.1",
   "buildTag": "latest",
   "meta": {

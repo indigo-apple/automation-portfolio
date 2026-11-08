@@ -7,7 +7,7 @@
     "exchanges": {
       "title": "Exchanges",
       "type": "array",
-      "description": "Which exchanges to scan. Valid values: okx, gate, mexc, htx, kucoin, bitget, binance, bybit. Binance/Bybit may be geo-blocked on some IPs (Apify cloud works). Unknown names are ignored.",
+      "description": "Which exchanges to scan. Defaults to the six that work from every region. Add binance or bybit only if your run has an IP those venues accept — they answer HTTP 451/403 from restricted regions. Valid: okx, gate, mexc, htx, kucoin, bitget, binance, bybit.",
       "editor": "stringList",
       "default": [
         "okx",
@@ -15,9 +15,7 @@
         "mexc",
         "htx",
         "kucoin",
-        "bitget",
-        "binance",
-        "bybit"
+        "bitget"
       ],
       "items": {
         "type": "string"
