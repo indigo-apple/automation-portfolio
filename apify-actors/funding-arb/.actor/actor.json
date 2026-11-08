@@ -21,7 +21,9 @@
             "fields": [
               "base",
               "long_exchange",
+              "long_symbol",
               "short_exchange",
+              "short_symbol",
               "long_rate_pct",
               "short_rate_pct",
               "spread_pct_per_period",

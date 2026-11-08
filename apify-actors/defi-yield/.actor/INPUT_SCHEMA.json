@@ -34,14 +34,20 @@
       "type": "array",
       "editor": "stringList",
       "description": "e.g. Ethereum, Solana, Base",
-      "default": []
+      "default": [],
+      "items": {
+        "type": "string"
+      }
     },
     "projects": {
       "title": "Projects (empty = all)",
       "type": "array",
       "editor": "stringList",
       "description": "e.g. aave-v3, morpho-blue",
-      "default": []
+      "default": [],
+      "items": {
+        "type": "string"
+      }
     },
     "excludeIl": {
       "title": "Exclude impermanent-loss pools",

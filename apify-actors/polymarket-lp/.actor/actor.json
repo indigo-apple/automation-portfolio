@@ -20,12 +20,16 @@
           "transformation": {
             "fields": [
               "question",
+              "slug",
+              "condition_id",
               "daily_reward_usd",
-              "rewards_max_spread_cents",
               "rewards_min_size",
+              "rewards_max_spread_cents",
               "liquidity_usd",
               "volume_24h_usd",
               "end_date",
+              "outcomes",
+              "outcome_prices",
               "url"
             ]
           }

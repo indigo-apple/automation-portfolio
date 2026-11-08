@@ -19,6 +19,7 @@
           "title": "Results",
           "transformation": {
             "fields": [
+              "pool_id",
               "project",
               "chain",
               "symbol",
@@ -28,6 +29,8 @@
               "tvl_usd",
               "stablecoin",
               "il_risk",
+              "exposure",
+              "reward_tokens",
               "url"
             ]
           }
