@@ -1,0 +1,154 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "type": "object",
+    "properties": {
+      "pool_id": {
+        "type": "string",
+        "title": "DefiLlama pool ID",
+        "description": "Unique pool identifier assigned by DefiLlama.",
+        "example": "47e72726-3b2b-4fe6-b4a9-a26e1fcd9a50"
+      },
+      "project": {
+        "type": "string",
+        "title": "Project",
+        "description": "Protocol slug as used by DefiLlama.",
+        "example": "saturn"
+      },
+      "chain": {
+        "type": "string",
+        "title": "Chain",
+        "description": "Blockchain the pool lives on.",
+        "example": "Ethereum"
+      },
+      "symbol": {
+        "type": "string",
+        "title": "Pool symbol",
+        "description": "Symbol of the deposited asset or LP pair.",
+        "example": "SUSDAT"
+      },
+      "apy": {
+        "type": "number",
+        "title": "APY %",
+        "description": "Total annual percentage yield, base plus rewards.",
+        "example": "44.03"
+      },
+      "apy_base": {
+        "type": "number",
+        "title": "Base APY %",
+        "description": "Yield from the protocol itself, excluding token incentives.",
+        "example": "44.03"
+      },
+      "apy_reward": {
+        "type": "number",
+        "title": "Reward APY %",
+        "description": "Yield coming from token incentives. Subsidies can end abruptly.",
+        "example": "0"
+      },
+      "tvl_usd": {
+        "type": "integer",
+        "title": "TVL (USD)",
+        "description": "Total value locked in the pool, in US dollars.",
+        "example": "37263973"
+      },
+      "stablecoin": {
+        "type": "boolean",
+        "title": "Stablecoin pool",
+        "description": "Whether the pool holds only stablecoins, so principal is not exposed to price swings.",
+        "example": "true"
+      },
+      "il_risk": {
+        "type": "string",
+        "title": "Impermanent loss risk",
+        "description": "Whether the pool is exposed to impermanent loss.",
+        "example": "no"
+      },
+      "exposure": {
+        "type": "string",
+        "title": "Exposure",
+        "description": "single for single-sided lending, multi for LP positions.",
+        "example": "single"
+      },
+      "reward_tokens": {
+        "type": "array",
+        "title": "Reward tokens",
+        "description": "Tokens paid as extra incentives, as opposed to the yield itself.",
+        "example": []
+      },
+      "url": {
+        "type": "string",
+        "title": "Pool page",
+        "description": "Direct link to the pool on DefiLlama.",
+        "example": "https://defillama.com/yields/pool/47e72726-3b2b-4fe6-b4a9-a26e1fcd9a50"
+      }
+    },
+    "required": [
+      "pool_id",
+      "project",
+      "chain",
+      "symbol",
+      "apy",
+      "apy_base",
+      "apy_reward",
+      "tvl_usd",
+      "stablecoin",
+      "il_risk",
+      "exposure",
+      "reward_tokens",
+      "url"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Stablecoin yield pools",
+      "description": "Stablecoin lending and LP pools ranked by APY, filtered by TVL.",
+      "transformation": {
+        "fields": [
+          "pool_id",
+          "project",
+          "chain",
+          "symbol",
+          "apy",
+          "apy_base",
+          "apy_reward",
+          "tvl_usd",
+          "stablecoin",
+          "il_risk",
+          "exposure",
+          "reward_tokens",
+          "url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "apy": {
+            "label": "APY %",
+            "format": "number"
+          },
+          "apy_base": {
+            "label": "Base APY %",
+            "format": "number"
+          },
+          "apy_reward": {
+            "label": "Reward APY %",
+            "format": "number"
+          },
+          "tvl_usd": {
+            "label": "TVL (USD)",
+            "format": "number"
+          },
+          "stablecoin": {
+            "format": "boolean"
+          },
+          "url": {
+            "format": "link"
+          },
+          "reward_tokens": {
+            "format": "array"
+          }
+        }
+      }
+    }
+  }
+}

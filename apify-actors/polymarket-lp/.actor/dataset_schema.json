@@ -1,0 +1,155 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "type": "object",
+    "properties": {
+      "question": {
+        "type": "string",
+        "title": "Market question",
+        "description": "The question the market resolves on.",
+        "example": "Miami (FL) vs. Notre Dame"
+      },
+      "slug": {
+        "type": "string",
+        "title": "Slug",
+        "description": "Polymarket event slug, used to build the market URL.",
+        "example": "cfb-mia-nd-2026-11-07"
+      },
+      "condition_id": {
+        "type": "string",
+        "title": "Condition ID",
+        "description": "On-chain condition identifier of the market.",
+        "example": "0x06fc010836a50d778fad4088e20766a0776bcf61cbdf2e9c77d656535f421f9e"
+      },
+      "daily_reward_usd": {
+        "type": "number",
+        "title": "Daily reward (USD)",
+        "description": "Total reward pool paid out per day to makers who qualify.",
+        "example": "1714.29"
+      },
+      "rewards_min_size": {
+        "type": "integer",
+        "title": "Minimum order size",
+        "description": "Minimum order size in shares required to qualify for rewards.",
+        "example": "1000"
+      },
+      "rewards_max_spread_cents": {
+        "type": "number",
+        "title": "Max spread (cents)",
+        "description": "Maximum distance from the midpoint, in cents, at which a quote still earns rewards.",
+        "example": "2.5"
+      },
+      "liquidity_usd": {
+        "type": "number",
+        "title": "Liquidity (USD)",
+        "description": "Current liquidity in the market, in US dollars.",
+        "example": "141635.86"
+      },
+      "volume_24h_usd": {
+        "type": "number",
+        "title": "24h volume (USD)",
+        "description": "Trading volume over the last 24 hours.",
+        "example": "2108373.91"
+      },
+      "end_date": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "title": "End date",
+        "description": "ISO 8601 timestamp when the market stops trading, or null when the market has no scheduled end date.",
+        "example": "2026-11-08T00:30:00Z"
+      },
+      "outcomes": {
+        "type": "array",
+        "title": "Outcomes",
+        "description": "Possible outcomes of the market, in the same order as outcome_prices.",
+        "example": [
+          "Miami (FL)",
+          "Notre Dame"
+        ]
+      },
+      "outcome_prices": {
+        "type": "array",
+        "title": "Outcome prices",
+        "description": "Current probability price of each outcome, 0 to 1, aligned with outcomes.",
+        "example": [
+          0.0655,
+          0.9345
+        ]
+      },
+      "url": {
+        "type": "string",
+        "title": "Market URL",
+        "description": "Direct link to the market on Polymarket.",
+        "example": "https://polymarket.com/event/cfb-mia-nd-2026-11-07"
+      }
+    },
+    "required": [
+      "question",
+      "slug",
+      "condition_id",
+      "daily_reward_usd",
+      "rewards_min_size",
+      "rewards_max_spread_cents",
+      "liquidity_usd",
+      "volume_24h_usd",
+      "end_date",
+      "outcomes",
+      "outcome_prices",
+      "url"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Rewarded markets",
+      "description": "Polymarket markets paying daily liquidity-provider rewards, by payout size.",
+      "transformation": {
+        "fields": [
+          "question",
+          "slug",
+          "condition_id",
+          "daily_reward_usd",
+          "rewards_min_size",
+          "rewards_max_spread_cents",
+          "liquidity_usd",
+          "volume_24h_usd",
+          "end_date",
+          "outcomes",
+          "outcome_prices",
+          "url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "daily_reward_usd": {
+            "label": "Reward USD/day",
+            "format": "number"
+          },
+          "liquidity_usd": {
+            "label": "Liquidity (USD)",
+            "format": "number"
+          },
+          "volume_24h_usd": {
+            "label": "24h volume (USD)",
+            "format": "number"
+          },
+          "end_date": {
+            "label": "Ends",
+            "format": "date"
+          },
+          "outcomes": {
+            "format": "array"
+          },
+          "outcome_prices": {
+            "format": "array"
+          },
+          "url": {
+            "format": "link"
+          }
+        }
+      }
+    }
+  }
+}

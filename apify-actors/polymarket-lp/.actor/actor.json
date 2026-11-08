@@ -12,29 +12,6 @@
   "input": "./INPUT_SCHEMA.json",
   "readme": "../README.md",
   "storages": {
-    "dataset": {
-      "actorSpecification": 1,
-      "views": {
-        "overview": {
-          "title": "Results",
-          "transformation": {
-            "fields": [
-              "question",
-              "slug",
-              "condition_id",
-              "daily_reward_usd",
-              "rewards_min_size",
-              "rewards_max_spread_cents",
-              "liquidity_usd",
-              "volume_24h_usd",
-              "end_date",
-              "outcomes",
-              "outcome_prices",
-              "url"
-            ]
-          }
-        }
-      }
-    }
+    "dataset": "./dataset_schema.json"
   }
 }

@@ -1,0 +1,129 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "type": "object",
+    "properties": {
+      "base": {
+        "type": "string",
+        "title": "Base asset",
+        "description": "Asset symbol shared by both legs, without the quote currency.",
+        "example": "CHILLGUY"
+      },
+      "long_exchange": {
+        "type": "string",
+        "title": "Long exchange",
+        "description": "Exchange where you buy the perpetual (the leg with the negative funding rate).",
+        "example": "bitget"
+      },
+      "long_symbol": {
+        "type": "string",
+        "title": "Long symbol",
+        "description": "Exchange-native symbol of the long leg. Naming differs per venue.",
+        "example": "CHILLGUYUSDT"
+      },
+      "short_exchange": {
+        "type": "string",
+        "title": "Short exchange",
+        "description": "Exchange where you short the perpetual (the leg with the positive funding rate).",
+        "example": "mexc"
+      },
+      "short_symbol": {
+        "type": "string",
+        "title": "Short symbol",
+        "description": "Exchange-native symbol of the short leg.",
+        "example": "CHILLGUY_USDT"
+      },
+      "long_rate_pct": {
+        "type": "number",
+        "title": "Long funding rate %",
+        "description": "Funding rate on the long leg, in percent per funding interval. Negative means longs receive funding.",
+        "example": "-0.4396"
+      },
+      "short_rate_pct": {
+        "type": "number",
+        "title": "Short funding rate %",
+        "description": "Funding rate on the short leg, in percent per funding interval.",
+        "example": "0.005"
+      },
+      "spread_pct_per_period": {
+        "type": "number",
+        "title": "Spread % per period",
+        "description": "Difference between the two funding rates, in percent, per funding interval.",
+        "example": "0.4446"
+      },
+      "apr_pct": {
+        "type": "number",
+        "title": "Annualized return %",
+        "description": "Spread extrapolated to a full year assuming the rate persists. Treat as an upper bound, not a guarantee.",
+        "example": "486.84"
+      },
+      "funding_interval_h": {
+        "type": "integer",
+        "title": "Funding interval (h)",
+        "description": "Hours between funding settlements on this pair. 8 is the most common.",
+        "example": "8"
+      },
+      "next_funding_ts": {
+        "type": "integer",
+        "title": "Next funding timestamp",
+        "description": "Unix timestamp in seconds of the next settlement, or 0 when the venue does not expose it.",
+        "example": "0"
+      }
+    },
+    "required": [
+      "base",
+      "long_exchange",
+      "long_symbol",
+      "short_exchange",
+      "short_symbol",
+      "long_rate_pct",
+      "short_rate_pct",
+      "spread_pct_per_period",
+      "apr_pct",
+      "funding_interval_h",
+      "next_funding_ts"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Arbitrage opportunities",
+      "description": "Cross-exchange funding-rate spreads ranked by annualized return.",
+      "transformation": {
+        "fields": [
+          "base",
+          "long_exchange",
+          "long_symbol",
+          "short_exchange",
+          "short_symbol",
+          "long_rate_pct",
+          "short_rate_pct",
+          "spread_pct_per_period",
+          "apr_pct",
+          "funding_interval_h",
+          "next_funding_ts"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "apr_pct": {
+            "label": "APR %",
+            "format": "number"
+          },
+          "spread_pct_per_period": {
+            "label": "Spread %",
+            "format": "number"
+          },
+          "long_rate_pct": {
+            "label": "Long rate %",
+            "format": "number"
+          },
+          "short_rate_pct": {
+            "label": "Short rate %",
+            "format": "number"
+          }
+        }
+      }
+    }
+  }
+}

@@ -12,28 +12,6 @@
   "input": "./INPUT_SCHEMA.json",
   "readme": "../README.md",
   "storages": {
-    "dataset": {
-      "actorSpecification": 1,
-      "views": {
-        "overview": {
-          "title": "Results",
-          "transformation": {
-            "fields": [
-              "base",
-              "long_exchange",
-              "long_symbol",
-              "short_exchange",
-              "short_symbol",
-              "long_rate_pct",
-              "short_rate_pct",
-              "spread_pct_per_period",
-              "apr_pct",
-              "funding_interval_h",
-              "next_funding_ts"
-            ]
-          }
-        }
-      }
-    }
+    "dataset": "./dataset_schema.json"
   }
 }
