@@ -1,62 +1,73 @@
 # Crypto Funding Rate Arbitrage Scanner
 
-Scans perpetual futures funding rates across OKX, Gate.io, MEXC, HTX, KuCoin and Bitget, and returns cross-exchange funding-rate spreads ranked by annualized return. Find delta-neutral carry trades in seconds.
+Scans perpetual-futures funding rates across **8 exchanges** and returns cross-exchange
+spreads ranked by annualized return, so you can find delta-neutral carry trades in seconds.
 
-## 输入
+Supported exchanges: `okx` `gate` `mexc` `htx` `kucoin` `bitget` `binance` `bybit`
+(all public APIs — no API keys required).
 
-见 `.actor/INPUT_SCHEMA.json`，所有项都有默认值，直接 Run 即可。
+## What it does
 
-支持 8 家交易所：`okx` `gate` `mexc` `htx` `kucoin` `bitget` `binance` `bybit`。
-**Binance / Bybit 对部分国家/地区的 IP 返回 451/403**，在 Apify 云端（欧美节点）可正常访问；
-若某家失败，Actor 会在 SUMMARY 里记录错误，其余交易所照常输出。
+1. Pulls every USDT-margined perpetual contract from each selected exchange.
+2. Normalizes inconsistent symbol formats (`BTC-USDT-SWAP`, `XBTUSDTM`, `BTC_USDT` → `BTC`).
+3. Converts each funding rate into an annualized number using the venue's settlement interval.
+4. Pairs up venues and ranks the spread: **short on the high-rate venue, long on the low-rate venue**.
+5. Drops illiquid/stale contracts whose per-period rate is implausibly large.
 
-## 输出
+## Input
 
-写入 Apify Dataset，字段：`base`, `long_exchange`, `short_exchange`, `long_rate_pct`, `short_rate_pct`, `spread_pct_per_period`, `apr_pct`, `funding_interval_h`, `next_funding_ts`
+All fields have defaults — press **Start** and it runs.
 
+| Field | Default | Meaning |
+|---|---|---|
+| `exchanges` | all 8 | Venues to scan |
+| `minAprPct` | `10` | Only return spreads above this annualized % |
+| `maxAbsRatePct` | `0.5` | Discard contracts with a per-period rate above this (illiquid filter) |
+| `topN` | `50` | Max rows in the dataset |
 
-## 输出字段
+> **Note on Binance / Bybit:** they block some regions with HTTP 451/403. On Apify cloud
+> (US/EU egress) they work. If one venue fails, it is recorded in the run summary and the
+> remaining venues still return results.
 
-| 字段 | 含义 |
+## Output
+
+One dataset item per opportunity:
+
+| Field | Meaning |
 |---|---|
-| `base` | 币种（BTC / ETH / …） |
-| `long_exchange` / `short_exchange` | 做多 / 做空的交易所 |
-| `long_rate_pct` / `short_rate_pct` | 当前资金费率（每期，百分数） |
-| `spread_pct_per_period` | 两家费率差（每期） |
-| `apr_pct` | 年化价差收益（未扣手续费与滑点） |
-| `funding_interval_h` | 结算周期（小时） |
+| `base` | Coin (BTC, ETH, …) |
+| `long_exchange` / `short_exchange` | Where to go long / short |
+| `long_rate_pct` / `short_rate_pct` | Current funding rate per settlement period |
+| `spread_pct_per_period` | Difference between the two rates |
+| `apr_pct` | Annualized spread (before fees and slippage) |
+| `funding_interval_h` | Settlement interval in hours |
 
-## 怎么用
+## How much does it cost?
 
-1. 在 `short_exchange` 开空、`long_exchange` 开多，两边仓位金额相等（delta 中性）
-2. 每期结算收资金费，赚的是 `spread_pct_per_period`
-3. **真实收益 = 年化价差 − 两边手续费（开平各一次）− 划转成本 − 滑点**
-4. `apr_pct` 超过 200% 通常是流动性差的小币，先看盘口深度再动手
+Pay-per-event. You only pay for the results you actually get.
 
-## 定价建议（Apify Console 设置）
+| Event | Price |
+|---|---|
+| `apify-default-dataset-item` (per result) | **$0.002** |
+| `apify-actor-start` (per run) | **$0.005** |
 
-- 按结果：`$0.002 / 条`（一次扫描 50 条 ≈ $0.10）
-- 或按次：`$0.05 / run`
+A typical run returning 50 ranked pairs costs about **$0.11**. Small runs are cheaper —
+a run with 10 results costs about $0.03.
 
+## How to use the results
 
-## 本地验证
+1. Open a short on `short_exchange` and a long of equal notional on `long_exchange`.
+2. Collect the funding payment each settlement while the spread holds.
+3. **Real return = annualized spread − trading fees (open + close on both legs) − transfer costs − slippage.**
+4. An `apr_pct` above ~200% is usually an illiquid micro-cap. Check order-book depth before sizing.
+
+## Notes
+
+- Not financial advice. Funding rates change continuously; always re-check before entering.
+- Data comes from public exchange endpoints and is not guaranteed to be real-time or complete.
+
+## Local run (no Apify account)
 
 ```bash
-python3 src/logic.py     # 不依赖 Apify SDK，直接打印结果
+python3 src/logic.py
 ```
-
-## 上架步骤
-
-```bash
-npm i -g apify-cli
-apify login
-cd funding-arb
-apify push
-```
-
-然后在 Apify Console：
-1. Actor → Publication → 填 README 的定价段
-2. 类目选 `Crypto` / `Finance`
-3. 设置 pay-per-result（见上面建议价）
-
-数据源全部为公开 API，用户无需提供 key。

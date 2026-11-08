@@ -1,58 +1,56 @@
 # Polymarket Liquidity Rewards Scanner
 
-Lists Polymarket markets that pay daily liquidity-provider rewards, sorted by USD/day, with qualifying max spread, minimum size and current liquidity. Built for market makers hunting reward pools.
+Lists Polymarket markets that pay **daily liquidity-provider rewards**, sorted by USD/day,
+together with the qualifying max spread, minimum quote size and current liquidity.
+Built for market makers hunting reward pools.
 
-## 输入
+## What it does
 
-见 `.actor/INPUT_SCHEMA.json`，所有项都有默认值，直接 Run 即可。
+- Reads Polymarket's public gamma API (no authentication).
+- Extracts per-market reward configuration from `clobRewards` (daily rate, max spread, min size).
+- Ranks markets by daily subsidy, so you can spot pools with high pay and low competition.
 
-## 输出
+## Input
 
-写入 Apify Dataset，字段：`question`, `daily_reward_usd`, `rewards_max_spread_cents`, `rewards_min_size`, `liquidity_usd`, `volume_24h_usd`, `end_date`, `url`
+| Field | Default | Meaning |
+|---|---|---|
+| `minDailyRewardUsd` | `1` | Minimum daily reward pool (USD) |
+| `maxSpreadCents` | unset | Only markets allowing a spread this tight or tighter |
+| `minLiquidityUsd` | `0` | Minimum current liquidity |
+| `pages` | `5` | Pages of 100 markets to scan |
+| `topN` | `100` | Max rows |
 
+## Output
 
-## 输出字段
-
-| 字段 | 含义 |
+| Field | Meaning |
 |---|---|
-| `question` | 市场标题 |
-| `daily_reward_usd` | 每天发放的做市奖励总额（USD） |
-| `rewards_max_spread_cents` | 报价必须满足的最大点差（美分） |
-| `rewards_min_size` | 报价最小股数（低于它不计奖励） |
-| `liquidity_usd` | 当前流动性 |
-| `url` | 市场链接 |
+| `question` | Market title |
+| `daily_reward_usd` | Total daily LP reward pool |
+| `rewards_max_spread_cents` | Max spread allowed to qualify (cents) |
+| `rewards_min_size` | Minimum quote size to count |
+| `liquidity_usd` | Current liquidity |
+| `volume_24h_usd` | 24h volume |
+| `end_date` | Market resolution date |
+| `url` | Polymarket link |
 
-## 怎么用
+## How much does it cost?
 
-1. 挑 `daily_reward_usd` 高、`liquidity_usd` 低的市场——补贴多、抢的人少
-2. 在 `rewards_max_spread_cents` 之内双边挂单，每边 ≥ `rewards_min_size`
-3. 奖励按你在合格报价中的占比分配，人越少分越多
-4. **风险**：被扫单（adverse selection）会吃掉奖励
+| Event | Price |
+|---|---|
+| `apify-default-dataset-item` (per result) | **$0.003** |
+| `apify-actor-start` (per run) | **$0.005** |
 
-## 定价建议
+A run returning 100 rewarded markets costs about **$0.31**.
 
-- 按结果：`$0.003 / 条`
-- 或按次：`$0.05 / run`
+## How to use it
 
+1. Prefer markets with a high `daily_reward_usd` but low `liquidity_usd` — big subsidy, few competitors.
+2. Quote both sides inside `rewards_max_spread_cents`, each side at least `rewards_min_size`.
+3. Rewards are split pro-rata among qualifying quotes, so fewer quoters means a bigger share.
+4. **Main risk:** adverse selection — getting filled by informed traders can wipe out the reward.
 
-## 本地验证
+## Local run
 
 ```bash
-python3 src/logic.py     # 不依赖 Apify SDK，直接打印结果
+python3 src/logic.py
 ```
-
-## 上架步骤
-
-```bash
-npm i -g apify-cli
-apify login
-cd polymarket-lp
-apify push
-```
-
-然后在 Apify Console：
-1. Actor → Publication → 填 README 的定价段
-2. 类目选 `Crypto` / `Finance`
-3. 设置 pay-per-result（见上面建议价）
-
-数据源全部为公开 API，用户无需提供 key。

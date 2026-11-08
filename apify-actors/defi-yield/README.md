@@ -1,57 +1,55 @@
 # DeFi Stablecoin Yield Scanner (DefiLlama)
 
-Scans every DeFi lending/LP pool tracked by DefiLlama and returns stablecoin yields filtered by TVL, APY, chain and impermanent-loss risk. Output includes direct pool links.
+Scans every DeFi lending and LP pool tracked by DefiLlama and returns stablecoin yields
+filtered by TVL, APY, chain and impermanent-loss risk — with direct links to each pool.
 
-## 输入
+## What it does
 
-见 `.actor/INPUT_SCHEMA.json`，所有项都有默认值，直接 Run 即可。
+- Downloads the full DefiLlama pool dataset (15,000+ pools, refreshed hourly).
+- Filters by minimum TVL, APY range, stablecoin flag and IL risk.
+- Separates **base APY** (real lending/fee income) from **reward APY** (token subsidies).
 
-## 输出
+## Input
 
-写入 Apify Dataset，字段：`project`, `chain`, `symbol`, `apy`, `apy_base`, `apy_reward`, `tvl_usd`, `stablecoin`, `il_risk`, `url`
+| Field | Default | Meaning |
+|---|---|---|
+| `minTvlUsd` | `10000000` | Ignore pools smaller than this |
+| `minApy` | `5` | Minimum APY (%) |
+| `maxApy` | `200` | Maximum APY (%) — filters obvious scams |
+| `stablecoinOnly` | `true` | Only stablecoin pools |
+| `chains` | `[]` | Filter by chain, e.g. `Ethereum`, `Solana`, `Base` |
+| `projects` | `[]` | Filter by project, e.g. `aave-v3`, `morpho-blue` |
+| `excludeIl` | `true` | Exclude pools with impermanent-loss risk |
+| `topN` | `100` | Max rows |
 
+## Output
 
-## 输出字段
-
-| 字段 | 含义 |
+| Field | Meaning |
 |---|---|
-| `project` / `chain` / `symbol` | 协议 / 链 / 池子交易对 |
-| `apy` | 总 APY（base + reward） |
-| `apy_base` | 真实借贷/手续费收益（可持续部分） |
-| `apy_reward` | 代币补贴（不可持续部分） |
-| `tvl_usd` | 池子规模 |
-| `url` | DefiLlama 池子详情 |
+| `project` / `chain` / `symbol` | Protocol, chain, pool pair |
+| `apy` | Total APY (base + reward) |
+| `apy_base` | Sustainable portion |
+| `apy_reward` | Subsidy portion (can drop to zero) |
+| `tvl_usd` | Pool size |
+| `url` | DefiLlama pool page |
 
-## 判断标准
+## How much does it cost?
 
-- `apy_base` 才是真收益；`apy_reward` 是补贴，停了 APY 会断崖
-- TVL < $10M 的池子 APY 再高也别重仓
-- 数据源为 DefiLlama 公共 API，1-2 小时更新
+| Event | Price |
+|---|---|
+| `apify-default-dataset-item` (per result) | **$0.001** |
+| `apify-actor-start` (per run) | **$0.005** |
 
-## 定价建议
+A run returning 100 pools costs about **$0.11**.
 
-- 按结果：`$0.001 / 条`
-- 或按次：`$0.02 / run`
+## How to read the results
 
+- `apy_base` is the real yield; `apy_reward` is a subsidy that can vanish overnight.
+- Pools under ~$10M TVL are not worth the smart-contract risk regardless of APY.
+- Data is sourced from DefiLlama and updated roughly hourly.
 
-## 本地验证
-
-```bash
-python3 src/logic.py     # 不依赖 Apify SDK，直接打印结果
-```
-
-## 上架步骤
+## Local run
 
 ```bash
-npm i -g apify-cli
-apify login
-cd defi-yield
-apify push
+python3 src/logic.py
 ```
-
-然后在 Apify Console：
-1. Actor → Publication → 填 README 的定价段
-2. 类目选 `Crypto` / `Finance`
-3. 设置 pay-per-result（见上面建议价）
-
-数据源全部为公开 API，用户无需提供 key。
