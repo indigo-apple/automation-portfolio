@@ -8,33 +8,36 @@
       "title": "Minimum daily reward (USD)",
       "type": "number",
       "default": 1,
-      "minimum": 0
+      "minimum": 0,
+      "description": "Markets paying less than this amount of rewards per day are dropped."
     },
     "maxSpreadCents": {
       "title": "Max allowed spread (cents)",
       "type": "number",
-      "description": "Empty = no limit.",
-      "default": null
+      "description": "Markets whose qualifying max spread is wider than this (in cents) are dropped. Leave empty for no limit."
     },
     "minLiquidityUsd": {
       "title": "Minimum liquidity (USD)",
       "type": "number",
       "default": 0,
-      "minimum": 0
+      "minimum": 0,
+      "description": "Markets with less than this much liquidity are dropped. Use 0 to list everything."
     },
     "pages": {
       "title": "Pages to scan (100 markets each)",
       "type": "integer",
       "default": 5,
       "minimum": 1,
-      "maximum": 30
+      "maximum": 30,
+      "description": "How many pages of Polymarket markets to scan (100 markets per page). Higher values take longer but find more reward pools."
     },
     "topN": {
       "title": "Max results",
       "type": "integer",
       "default": 100,
       "minimum": 1,
-      "maximum": 1000
+      "maximum": 1000,
+      "description": "Maximum number of markets written to the dataset, sorted by daily reward descending."
     }
   },
   "required": []

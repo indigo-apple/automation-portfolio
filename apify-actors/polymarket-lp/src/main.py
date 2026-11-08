@@ -21,7 +21,7 @@ async def main():
         for row in rows:
             await Actor.push_data(row)
         await Actor.set_value('SUMMARY', {'markets': len(markets), 'rewarded': len(rows)})
-        await Actor.log.info(f'{len(rows)} rewarded markets out of {len(markets)}')
+        Actor.log.info(f'{len(rows)} rewarded markets out of {len(markets)}')
 
 
 if __name__ == '__main__':

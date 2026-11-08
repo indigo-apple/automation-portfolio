@@ -25,7 +25,7 @@ async def main():
         for row in rows:
             await Actor.push_data(row)
         await Actor.set_value('SUMMARY', {'pools': len(pools), 'found': len(rows)})
-        await Actor.log.info(f'{len(rows)} pools matched out of {len(pools)}')
+        Actor.log.info(f'{len(rows)} pools matched out of {len(pools)}')
 
 
 if __name__ == '__main__':

@@ -15,7 +15,8 @@
       "title": "Minimum APY (%)",
       "type": "number",
       "default": 5,
-      "minimum": 0
+      "minimum": 0,
+      "description": "Pools below this APY are dropped. Set 0 to see everything."
     },
     "maxApy": {
       "title": "Maximum APY (%)",
@@ -27,7 +28,8 @@
     "stablecoinOnly": {
       "title": "Stablecoin pools only",
       "type": "boolean",
-      "default": true
+      "default": true,
+      "description": "When enabled, only pools whose symbol is a stablecoin pair (USDC, USDT, DAI, USDS...) are returned."
     },
     "chains": {
       "title": "Chains (empty = all)",
@@ -52,14 +54,16 @@
     "excludeIl": {
       "title": "Exclude impermanent-loss pools",
       "type": "boolean",
-      "default": true
+      "default": true,
+      "description": "When enabled, AMM pools exposed to impermanent loss are filtered out. Keep enabled for single-sided lending yields."
     },
     "topN": {
       "title": "Max results",
       "type": "integer",
       "default": 100,
       "minimum": 1,
-      "maximum": 1000
+      "maximum": 1000,
+      "description": "Maximum number of pools written to the dataset, sorted by APY descending."
     }
   },
   "required": []

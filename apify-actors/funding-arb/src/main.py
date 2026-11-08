@@ -18,11 +18,11 @@ async def main():
             top=int(inp.get('topN', 50)),
         )
         if errors:
-            await Actor.log.warning(f'some exchanges failed: {errors}')
+            Actor.log.warning(f'some exchanges failed: {errors}')
         for row in rows:
             await Actor.push_data(row)
         await Actor.set_value('SUMMARY', {'symbols': n_symbols, 'opportunities': len(rows), 'errors': errors})
-        await Actor.log.info(f'{n_symbols} symbols scanned, {len(rows)} opportunities')
+        Actor.log.info(f'{n_symbols} symbols scanned, {len(rows)} opportunities')
 
 
 if __name__ == '__main__':
