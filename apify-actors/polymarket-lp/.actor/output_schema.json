@@ -1,0 +1,19 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Polymarket liquidity rewards output",
+  "description": "Dataset of rewarded prediction markets plus a scan summary.",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Rewarded markets",
+      "description": "Each row is one Polymarket market paying daily maker rewards, with the qualifying spread, minimum size and current liquidity.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Scan summary",
+      "description": "How many markets were scanned and how many carry an active reward pool.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/SUMMARY"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Funding-rate arbitrage output",
+  "description": "Dataset of cross-exchange funding-rate spreads plus a scan summary.",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Arbitrage opportunities",
+      "description": "Each row is one delta-neutral carry trade: long the perpetual on one exchange, short it on another, ranked by annualized return.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Scan summary",
+      "description": "Number of symbols scanned, opportunities found, and the errors returned by exchange APIs that failed.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/SUMMARY"
+    }
+  }
+}

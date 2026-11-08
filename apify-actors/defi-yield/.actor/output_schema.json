@@ -1,0 +1,19 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "DeFi stablecoin yield output",
+  "description": "Dataset of stablecoin yield pools plus a scan summary.",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Yield pools",
+      "description": "Each row is one lending or LP pool with APY breakdown, TVL, impermanent-loss risk and a direct link to DefiLlama.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Scan summary",
+      "description": "How many pools were downloaded from DefiLlama and how many matched the filters.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/SUMMARY"
+    }
+  }
+}
